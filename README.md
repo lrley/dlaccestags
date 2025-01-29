@@ -13,3 +13,5 @@ NOTAS
 # 6 git add .
 # 7 git commit -m "nombre del commit"
 # 8 para recuperar algo borrado git checkout --.
+# 9 npm install mongoose --save
+# 10 npm install bcryptjs

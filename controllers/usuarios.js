@@ -1,27 +1,36 @@
 const {response,request} = require('express');
+const bcryptjs = require('bcryptjs');
 
 
+const Usuario = require('../models/usuarioDB');
 
 const usuariosGet = (req=request, res=response) =>{
+  
     const {q='', nombre='No name', apiky='', page=1, limit='10'} = req.query;
     console.log(q , nombre, apiky)
+  
+
     res.json({
-       msg: 'GET API USUARIOS controlador update....',
-       q,
-       nombre,
-       apiky,
-       page,
-       limit,
+       nombre
     })
   }
+  
 
-const usuariosPost =  (req=request, res=response) =>{
-   const body= req.body;
+const usuariosPost = async (req=request, res=response) =>{
+   const {nombre, cedula ,correo, password, rol,fechacreacion}= req.body;
+   const usuario = new Usuario({nombre, cedula, correo, password, rol, fechacreacion});
+   console.log(usuario)
+   //VERIFICAR SI EL CORREO EXISTE
 
-   console.log(body)
-    res.json({
+   // ENCRIPTAR LA CONTRASEÑA
+
+
+   //GUARDAR EN BASE DE DATOS
+   await usuario.save();
+
+   res.json({
       msg: 'POST API USUARIOS controlador update....',
-      body
+      usuario
    })
  }
 
