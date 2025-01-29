@@ -1,0 +1,15 @@
+NOTAS
+# 0 Iniciar el npm init -y
+
+# 1 recordar ejecutar ```npm install``` para reconstruir
+
+# 2 tener instalado npm install -g nodemon
+
+# 3 instalaciones adicionales: npm i express dotenv
+
+# 4 instalar npm install cors
+
+# 5 git init
+# 6 git add .
+# 7 git commit -m "nombre del commit"
+# 8 para recuperar algo borrado git checkout --.
