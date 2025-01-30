@@ -11,7 +11,7 @@ router.get('/', rolesGet );
 
 
 router.post('/',[
-    check('rol','El nombre es obligatorio').not().isEmpty(),
+    check('rol','El Rol es obligatorio').not().isEmpty(),
     validarCampos,
 ] , rolesPost)
 

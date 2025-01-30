@@ -1,4 +1,5 @@
 const {response,request} = require('express');
+const Rol = require('../models/rolDB');
 
 
 
@@ -11,13 +12,30 @@ const rolesGet = (req=request, res=response) =>{
 
 
 
-  const  rolesPost=(req = request, res = response)=>{
+  const  rolesPost= async(req = request, res = response)=>{
 
-    const body = req.body;
+    const {rol} = req.body;
+
+    const role= new Rol({rol});
+    console.log(role)
+
+    const existeRol= await Rol.findOne({rol});
+    if(existeRol){
+        console.log(`No se grabo el Rol porque ya existe`)
+        return res.status(400).json({
+           msg:'Ese Rol ya esta registrado',
+           rol
+        });
+    }
+    console.log(existeRol)
+   //GUARDAR EN BASE DE DATOS
+    await role.save();
+
+
 
     res.json({
         msg: 'POST desde Roles',
-        body
+        role
     })
 
   }

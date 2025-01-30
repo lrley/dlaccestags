@@ -1,5 +1,5 @@
 
-const {Schema, model}= require('mongoose')
+const {Schema, model} = require('mongoose');
 
 
 const SchemaRol = Schema({
@@ -12,5 +12,4 @@ const SchemaRol = Schema({
 
 });
 
-
-module.exports = model('Rol', SchemaRol)
+module.exports= model('Rol',SchemaRol);
