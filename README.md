@@ -15,3 +15,4 @@ NOTAS
 # 8 para recuperar algo borrado git checkout --.
 # 9 npm install mongoose --save
 # 10 npm install bcryptjs
+# 11 npm install express-validator
