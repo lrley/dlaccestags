@@ -11,6 +11,7 @@ class Server {
         this.usuariosPath = '/api/usuarios';
         this.clientesPath= '/api/clientes'
         this.compraTagPath= '/api/compratags'
+        this.rolesPath='/api/roles'
 
         //CONECTAR A BASE DE DATOS
         this.conectarDB();
@@ -49,6 +50,7 @@ class Server {
         this.app.use(this.usuariosPath, require('../routes/ruta-usuarios'));
         this.app.use(this.clientesPath, require('../routes/ruta-clientes'));
         this.app.use(this.compraTagPath, require('../routes/ruta-compraTags'));
+        this.app.use(this.rolesPath, require('../routes/ruta-roles'));
 
     }
 

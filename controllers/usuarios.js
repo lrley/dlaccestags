@@ -1,6 +1,6 @@
 const {response,request} = require('express');
 const bcryptjs = require('bcryptjs');
-const {validationResult}= require('express-validator')
+
 const Usuario = require('../models/usuarioDB');
 
 
@@ -18,24 +18,30 @@ const usuariosGet = (req=request, res=response) =>{
 
 const usuariosPost = async (req=request, res=response) =>{
 
-   const errors= validationResult(req)
-   if( !errors.isEmpty() ){
-      return res.status(400).json(errors);
-   }
-
    const {nombre, cedula ,correo, password, rol,fechacreacion}= req.body;
    const usuario = new Usuario({nombre, cedula, correo, password, rol, fechacreacion});
    console.log(usuario)
 
+   //VERIFICAR SI LA CEDULA EXISTE
+   const existeCedula= await Usuario.findOne({cedula});
+   if(existeCedula){
+      console.log(`No se grabo la informacion porque la cedula ${cedula} ya existe`);
+      return res.status(400).json({
+         msg: 'Esta Cedula ya existe',
+         cedula
+      });
+   }
+
    //VERIFICAR SI EL CORREO EXISTE
    const existeEmail= await Usuario.findOne({correo});
    if(existeEmail){
-      console.log('no se grabo la informacion ese correo ya esta registrado')
+      console.log(`No se grabo la informacion el correo ${correo} ya esta registrado`)
       return res.status(400).json({
-         msg:'Ese correo ya esta registrado'
+         msg:'Ese correo ya esta registrado',
+         correo
       });
    }
-   
+
 
    // ENCRIPTAR LA CONTRASEÑA
    const salt= bcryptjs.genSaltSync();
