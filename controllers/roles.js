@@ -10,8 +10,6 @@ const rolesGet = (req=request, res=response) =>{
     })
   }
 
-
-
   const  rolesPost= async(req = request, res = response)=>{
 
     const {rol} = req.body;
@@ -39,7 +37,6 @@ const rolesGet = (req=request, res=response) =>{
     })
 
   }
-
 
   const rolesPut = (req=request, res= response) =>{
     const id= req.params.id;
