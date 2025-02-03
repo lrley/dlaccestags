@@ -1,7 +1,7 @@
 const {response,request} = require('express');
 const Compratag = require('../models/compraTagsDB');
 const moment = require('moment-timezone');
-const { fechaEcuador } = require('../middlewares/fechaActual');
+const { fechaEcuador } = require('../helpers/fechaActual');
 
 
 
