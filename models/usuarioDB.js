@@ -9,7 +9,7 @@ const SchemaUsuario = Schema({
     },
 
     cedula:{
-        type:String,
+        type: String,
         required: [true, 'La Cedula es Requerida'],
         unique: true
     },
@@ -45,7 +45,7 @@ const SchemaUsuario = Schema({
     fechacreacion:{
         type: Date,
         required: true,
-        
+        //default: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)),
     }
 
 

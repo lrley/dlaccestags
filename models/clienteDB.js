@@ -49,6 +49,7 @@ google:{
 fechacreacion:{
     type: Date,
     required: true,
+   
     
 },
 

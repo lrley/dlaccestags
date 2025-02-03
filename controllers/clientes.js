@@ -1,7 +1,7 @@
 const {response,request} = require('express');
 const bcryptjs = require('bcryptjs');
 const Cliente = require('../models/clienteDB');
-
+const { fechaEcuador } = require('../middlewares/fechaActual');
 
 
 const clientesGet = (req=request, res=response) =>{
@@ -14,10 +14,10 @@ const clientesGet = (req=request, res=response) =>{
 
 
 const clientePost =  async(req=request, res=response) =>{
-   const {nombre,cedula,direccion,correo,password,rol,fechacreacion,idUsuario,usuario}= req.body;
+   const {nombre,cedula,direccion,correo,password,rol,idUsuario,usuario}= req.body;
 
    
-   const cliente= new Cliente({nombre,cedula,direccion,correo,password,rol,fechacreacion,idUsuario,usuario});
+   const cliente= new Cliente({nombre,cedula,direccion,correo,password,rol,fechacreacion:fechaEcuador(),idUsuario,usuario});
     
      //VERIFICAR SI LA CEDULA EXISTE
       const existeCedula= await Cliente.findOne({cedula});
@@ -47,7 +47,7 @@ const clientePost =  async(req=request, res=response) =>{
    
    
    
-    cliente.fechacreacion= new Date();
+    
 
 
 

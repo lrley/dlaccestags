@@ -1,7 +1,7 @@
 const {response,request} = require('express');
 const bcryptjs = require('bcryptjs');
 const Usuario = require('../models/usuarioDB');
-
+const { fechaEcuador } = require('../middlewares/fechaActual');
 
 
 const usuariosGet = (req=request, res=response) =>{
@@ -17,8 +17,8 @@ const usuariosGet = (req=request, res=response) =>{
 
 const usuariosPost = async (req=request, res=response) =>{
 
-   const {nombre, cedula ,correo, password, rol, fechacreacion}= req.body;
-   const usuario = new Usuario({nombre, cedula, correo, password, rol, fechacreacion});
+   const {nombre, cedula ,correo, password, rol,fechacreacion }= req.body;
+   const usuario = new Usuario({nombre, cedula, correo, password, rol,fechacreacion:fechaEcuador()});
    console.log(usuario)
 
    //VERIFICAR SI LA CEDULA EXISTE
@@ -45,8 +45,8 @@ const usuariosPost = async (req=request, res=response) =>{
    // ENCRIPTAR LA CONTRASEÑA
    const salt= bcryptjs.genSaltSync();
    usuario.password= bcryptjs.hashSync(password, salt);
-   usuario.fechacreacion= new Date();
-
+   
+   console.log(usuario.fechacreacion)
 
    //GUARDAR EN BASE DE DATOS
    await usuario.save();

@@ -16,3 +16,5 @@ NOTAS
 # 9 npm install mongoose --save
 # 10 npm install bcryptjs
 # 11 npm install express-validator
+# 12 npm install moment
+# 13 npm install moment-timezone
