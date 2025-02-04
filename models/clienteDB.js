@@ -64,8 +64,18 @@ usuario:{
 
 },
 
+fechaActualizacion:{
+        type: Date,
+        required: true,
+    }
+
 });
 
 
+SchemaCliente.methods.toJSON= function(){
+
+    const {_id, __v,password, ...client}= this.toObject();
+    return client;
+}
 
 module.exports= model('Cliente',SchemaCliente);

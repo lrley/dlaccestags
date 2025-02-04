@@ -4,7 +4,7 @@ const {check} = require('express-validator');
 const { clientesGet, clientePost, clientePut, clienteDelete } = require('../controllers/clientes');
 const { validarCampos } = require('../middlewares/validar-campos');
 const Rol = require('../models/rolDB');
-const { esRolValido,existeCedulaCliente,existeCorreoCliente } = require('../helpers/db-validators');
+const { esRolValido,existeCedulaCliente,existeCorreoCliente,existeClientePorId } = require('../helpers/db-validators');
 
 const router =  Router();
 
@@ -25,7 +25,14 @@ router.post('/',[
 ] ,clientePost)
 
 
-router.put('/:id',  clientePut)
+router.put('/:id',[
+    check('password','El Password es obligatorio y mas de 6 caracteres').isLength({min: 6}),
+    check('cedula','La cedula es obligatoria 10 caracteres si es ruc 13').isLength({min:10, max:13}),
+    check('id').custom(existeClientePorId),
+    check('id', 'No es un ID Valido').isMongoId(),
+    check('rol').custom(esRolValido),
+    validarCampos,
+],clientePut)
 
  
 router.delete('/:id',  clienteDelete)

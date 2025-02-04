@@ -54,5 +54,11 @@ const SchemaCompraTags = Schema({
 
 });
 
+SchemaCompraTags.methods.toJSON= function(){
+
+    const {_id, __v, ...client}= this.toObject();
+    return client;
+}
+
 
 module.exports= model('Compratag',SchemaCompraTags);

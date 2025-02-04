@@ -13,23 +13,10 @@ const rolesGet = (req=request, res=response) =>{
   const  rolesPost= async(req = request, res = response)=>{
 
     const {rol} = req.body;
-
     const role= new Rol({rol});
-    console.log(role)
-
-    const existeRol= await Rol.findOne({rol});
-    if(existeRol){
-        console.log(`No se grabo el Rol porque ya existe`)
-        return res.status(400).json({
-           msg:'Ese Rol ya esta registrado',
-           rol
-        });
-    }
-    console.log(existeRol)
+    
    //GUARDAR EN BASE DE DATOS
     await role.save();
-
-
 
     res.json({
         msg: 'POST desde Roles',
@@ -38,11 +25,18 @@ const rolesGet = (req=request, res=response) =>{
 
   }
 
-  const rolesPut = (req=request, res= response) =>{
+  const rolesPut = async(req=request, res= response) =>{
     const id= req.params.id;
-     res.json({
+    const { _id, ...resto }= req.body;
+
+    console.log(id, resto)
+    const role= await Rol.findByIdAndUpdate( id , resto );
+    console.log(resto)
+    
+
+    res.json({
          msg: `UPDATE desde Roles`,
-         id
+         resto
       })
   }
  

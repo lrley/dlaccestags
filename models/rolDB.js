@@ -12,4 +12,11 @@ const SchemaRol = Schema({
 
 });
 
+
+SchemaRol.methods.toJSON= function(){
+
+    const { __v, ...roles}= this.toObject();
+    return roles;
+}
+
 module.exports= model('Rol',SchemaRol);

@@ -17,8 +17,8 @@ const usuariosGet = (req=request, res=response) =>{
 
 const usuariosPost = async (req=request, res=response) =>{
 
-   const {nombre, cedula ,correo, password, rol,fechacreacion }= req.body;
-   const usuario = new Usuario({nombre, cedula, correo, password, rol,fechacreacion:fechaEcuador()});
+   const {nombre, cedula ,correo, password, rol,fechacreacion,fechaActualizacion }= req.body;
+   const usuario = new Usuario({nombre, cedula, correo, password, rol,fechacreacion:fechaEcuador(),fechaActualizacion:fechaEcuador()});
 
    // ENCRIPTAR LA CONTRASEÑA
    const salt= bcryptjs.genSaltSync();
@@ -33,12 +33,23 @@ const usuariosPost = async (req=request, res=response) =>{
    })
  }
 
-const usuariosPut = (req=request, res= response) =>{
+const usuariosPut = async(req=request, res= response) =>{
    const id= req.params.id;
-   console.log(id)
+   const {_id, password, google,fechacreacion,correo, ...resto }= req.body;
+    
+   //TODO VALIDAR CONTRA BASE DE DATOS
+   if(password){
+      const salt= bcryptjs.genSaltSync();
+      resto.password= bcryptjs.hashSync(password, salt);
+   }
+      resto.fechaActualizacion=fechaEcuador();
+
+   const usuario= await Usuario.findByIdAndUpdate( id , resto );
+      console.log(usuario);
+      
+
     res.json({
-        msg: `UPDATE USER ${id} DEL API USUARIOS controlador update..`,
-        id
+        usuario
      })
  }
 

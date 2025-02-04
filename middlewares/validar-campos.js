@@ -1,5 +1,13 @@
 const {validationResult}= require('express-validator')
 
+/**
+ * 
+ * @param {req} req 
+ * @param {res} res 
+ * @param {next} next 
+ * @returns next()
+ * toos los models la utilizan para verificar campos 
+ */
 const validarCampos=(req, res,next)=>{
 
     const errors= validationResult(req)

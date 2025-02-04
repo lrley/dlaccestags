@@ -15,7 +15,7 @@ const clientesGet = (req=request, res=response) =>{
 
 const clientePost =  async(req=request, res=response) =>{
    const {nombre,cedula,direccion,correo,password,rol,idUsuario,usuario}= req.body;
-   const cliente= new Cliente({nombre,cedula,direccion,correo,password,rol,fechacreacion:fechaEcuador(),idUsuario,usuario});
+   const cliente= new Cliente({nombre,cedula,direccion,correo,password,rol,fechacreacion:fechaEcuador(),fechaActualizacion:fechaEcuador(),idUsuario,usuario});
     
       // ENCRIPTAR LA CONTRASEÑA
       const salt= bcryptjs.genSaltSync();
@@ -31,12 +31,23 @@ const clientePost =  async(req=request, res=response) =>{
  }
 
 
- const clientePut= (req=request, res=response) =>{
+ const clientePut= async(req=request, res=response) =>{
    const id= req.params.id;
-   console.log(id)
+   const {_id, password, google,fechacreacion,correo, ...resto }= req.body;
+
+   //TODO VALIDAR CONTRA BASE DE DATOS
+     if(password){
+        const salt= bcryptjs.genSaltSync();
+        resto.password= bcryptjs.hashSync(password, salt);
+     }
+        resto.fechaActualizacion=fechaEcuador();
+  
+     const cliente= await Cliente.findByIdAndUpdate( id , resto );
+        console.log(cliente);
+
     res.json({
         msg: `UPDATE CLIENTE ${id} DEL API CLIENTES controlador update..`,
-        id
+        cliente
      })
  }
 

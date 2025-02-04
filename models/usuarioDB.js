@@ -46,7 +46,15 @@ const SchemaUsuario = Schema({
         type: Date,
         required: true,
         //default: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)),
+    },
+
+    fechaActualizacion:{
+        type: Date,
+        required: true,
+        //default: new Date(new Date().getTime() - (new Date().getTimezoneOffset() * 60000)),
     }
+
+
 
 
 
@@ -54,8 +62,8 @@ const SchemaUsuario = Schema({
 
 SchemaUsuario.methods.toJSON= function(){
 
-    const {_id, __v,password, ...usuario}= this.toObject();
-    return usuario;
+    const {_id, __v,password, ...user}= this.toObject();
+    return user;
 }
 
 module.exports= model('Usuario',SchemaUsuario);
