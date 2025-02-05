@@ -34,7 +34,11 @@ validarCampos,
 ],usuariosPut)
 
  
-router.delete('/:id',  usuariosDelete)
+router.delete('/:id',[
+    check('id').custom(existeUsuarioPorId),
+    check('id', 'No es un ID Valido').isMongoId(),
+    validarCampos,
+] , usuariosDelete)
 
 
 

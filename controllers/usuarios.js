@@ -4,14 +4,26 @@ const Usuario = require('../models/usuarioDB');
 const { fechaEcuador } = require('../helpers/fechaActual');
 
 
-const usuariosGet = (req=request, res=response) =>{
-  
-    const {q='', nombre='No name', apiky='', page=1, limit='10'} = req.query;
-    console.log(q , nombre, apiky)
-  
+const usuariosGet = async(req=request, res=response) =>{
+
+      const {limit=20, desde='0'}= req.query;
+      const query= {estado:true}
+     /* const usuarios = await Usuario.find(query)
+      .skip(Number(desde))
+      .limit(Number(limit))
+
+      const total= await Usuario.countDocuments(query);
+*/
+   const [total, usuarios]= await Promise.all([
+      Usuario.countDocuments(query),
+      Usuario.find(query)
+      .skip(Number(desde))
+      .limit(Number(limit)),
+   ])
 
     res.json({
-       nombre
+      total,
+      usuarios
     })
   }
 
@@ -54,12 +66,19 @@ const usuariosPut = async(req=request, res= response) =>{
  }
 
 
- const usuariosDelete = (req=request, res=response) =>{
+ const usuariosDelete = async(req=request, res=response) =>{
    const id= req.params.id;
+   
    console.log(id)
+
+   //borra de la base de datos al usuario por id permanentemente
+  // const usuario= await Usuario.findByIdAndDelete(id);
+
+   const usuario= await Usuario.findByIdAndUpdate(id,{estado:false})
+
     res.json({
         msg: `DELETE USER ${id} DEL API USUARIOS controlador..`,
-        id
+        usuario
      })
   }
 
