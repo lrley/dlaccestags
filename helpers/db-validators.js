@@ -4,7 +4,6 @@ const Cliente = require('../models/clienteDB');
 const Compratag = require('../models/compraTagsDB');
 
 /**
- * 
  * @param {String} rol 
  * consulta si existe el rol para post o put de un cliente para ruta-clientes.js
  * consulta si existe el rol para post de un usuario para ruta-usuarios.js
@@ -18,12 +17,11 @@ const esRolValido = async(rol='')=>{
 }
 
 /**
- * 
  * @param {String} cedula 
  * recibe la cedula del usuario para verificar si esta registrada post ruta-usuarios.js
  */
  const existeCedulaUser= async(cedula='')=>{
-     console.log(cedula)
+    
      const cedulaExiste = await Usuario.findOne({cedula})
        if(cedulaExiste){
           console.log(`No se grabo la informacion porque la cedula ${cedula} ya existe`);
@@ -33,12 +31,11 @@ const esRolValido = async(rol='')=>{
  }
  
  /**
-  * 
   * @param {String} correo 
   * Recibe el correo del usuario para verificar si esta registrado post ruta-usuarios.js
   */
 const existeEmailUser= async(correo='')=>{
-    console.log(correo)
+   
     const existeEmail= await Usuario.findOne({correo});
     if(existeEmail){
        console.log(`No se grabo la informacion el correo ${correo} ya esta registrado`)
@@ -48,7 +45,6 @@ const existeEmailUser= async(correo='')=>{
 }
 
 /**
- * 
  * @param {String} cedula
  * consulta si la cedula del cliente existe en la base de datos  ruta-clientes.js
  */
@@ -64,7 +60,6 @@ const existeCedulaCliente= async(cedula='')=>{
    
 
 /**
- * 
  * @param {String} correo 
  *  Recibe el correo del cliente para verificar si esta registrado en la base de datos  ruta-clientes.js
  */
@@ -77,7 +72,6 @@ const existeCorreoCliente= async(correo='')=>{
 }
  
 /**
- * 
  * @param {String} id
  * Recibe el Id y verifica si este Id existe en la base de datos de Usuario put  ruta-usuarios.js
  */
@@ -91,7 +85,6 @@ const existeUsuarioPorId=async(id)=>{
 }
 
 /**
- * 
  * @param {String} id 
  * Recibe el Id y verifica si este Id existe en la base de datos de CLientes para put en clientes ruta-clientes.js
  */
@@ -104,7 +97,6 @@ const existeClientePorId=async(id)=>{
 }
 
 /**
- * 
  * @param {String} numerotag 
  * consulta si existe un tags de ruta-compratags.js
  */
@@ -116,6 +108,7 @@ const existeTag= async(numerotag)=>{
     }
 }
 
+/**sin utilizar */
 const NoexisteTag= async(numerotag)=>{
     const NoexisteTag= await Compratag.findOne({numerotag});
     
@@ -126,7 +119,6 @@ const NoexisteTag= async(numerotag)=>{
 }
 
 /**
- * 
  * @param {String} rol
  * comprueba si existe el Id de roles para actualizarlo en la tabla Rol ruta-roles.js
  */
@@ -139,6 +131,7 @@ const NoexisteRolId=async(rol)=>{
     }
 }
 
+/** Sin Utilizar */
 const existeRol=async(rol)=>{
    
     const existeRol= await Rol.findOne({rol});
@@ -150,7 +143,6 @@ const existeRol=async(rol)=>{
 }
 
 /**
- * 
  * @param {String} id 
  * consulta Tags por ID de ruta-compratags.js
  */
@@ -162,7 +154,9 @@ const existeTagPorId=async(id)=>{
     }
 }
 
-
+/**
+ * modulos a exportar
+ */
 module.exports={
     esRolValido,
     existeCedulaUser,
