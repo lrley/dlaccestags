@@ -4,11 +4,29 @@ const Cliente = require('../models/clienteDB');
 const { fechaEcuador } = require('../helpers/fechaActual');
 
 
-const clientesGet = (req=request, res=response) =>{
+const clientesGet =async (req=request, res=response) =>{
    
+  const {limit=20, desde='0'}= req.query;
+      const query= {estado:true}
+     /* const usuarios = await Usuario.find(query)
+      .skip(Number(desde))
+      .limit(Number(limit))
+
+      const total= await Usuario.countDocuments(query);
+*/
+   const [total, clientes]= await Promise.all([
+      Cliente.countDocuments(query),
+      Cliente.find(query)
+      .skip(Number(desde))
+      .limit(Number(limit)),
+   ])
+
+
+
     res.json({
        msg: 'GET API CLIENTE controlador update..',
-
+      total,
+      clientes
     })
   }
 
