@@ -49,6 +49,11 @@ const SchemaCompraTags = Schema({
         required: [true, 'El nombre de Usuario es Requerido'],
     
     },
+    
+    estado:{
+        type: Boolean,
+        default: true
+    },
 
 
 

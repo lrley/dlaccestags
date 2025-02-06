@@ -9,6 +9,11 @@ const SchemaRol = Schema({
         required: [true, 'El Rol es Obligatorio'],
         unique: true
     },
+    estado:{
+        type: Boolean,
+        default: true
+    },
+    
 
 });
 

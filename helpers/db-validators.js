@@ -30,6 +30,22 @@ const esRolValido = async(rol='')=>{
        }
  }
  
+/**
+ * 
+ * @param {String} cedula 
+ * consulta si no existe la cedula en la base de datos de usuarios porque si existe la envia a eliminar ruta-usuario.js
+ */
+ const NoexisteCedulaUser= async(cedula='')=>{
+    
+    const cedulaExiste = await Usuario.findOne({cedula})
+      if(!cedulaExiste){
+         console.log(`La cedula ${cedula} No existe`);
+         throw new Error(`La Cedula ${cedula} No existe en la base de datos`);
+    
+      }
+}
+
+
  /**
   * @param {String} correo 
   * Recibe el correo del usuario para verificar si esta registrado post ruta-usuarios.js
@@ -56,6 +72,19 @@ const existeCedulaCliente= async(cedula='')=>{
         throw new Error(`La cedula ${cedula} ya esta registrada en la Base de datos de clientes`);
      }
 
+}
+
+/**
+ * 
+ * @param {String} cedula 
+ * consulta si el cliente existe con la cedula en la base de datos para eliminarlo ruta-clientes.js
+ */
+const NoexisteCedulaCliente= async(cedula='')=>{
+    const existeCedula= await Cliente.findOne({cedula});
+     if(!existeCedula){
+        console.log(`La cedula ${cedula} no existe en la base de datos`);
+        throw new Error(`La cedula ${cedula} no existe en la base de datos`);
+     }
 }
    
 
@@ -101,18 +130,23 @@ const existeClientePorId=async(id)=>{
  * consulta si existe un tags de ruta-compratags.js
  */
 const existeTag= async(numerotag)=>{
+  
     const existeTag= await Compratag.findOne({numerotag});
+    console.log(existeTag)
     if(existeTag){
     console.log(`No se grabo la informacion porque el Tag ${numerotag} ya existe`);
         throw new Error(`No se grabo la informacion porque el Tag: ${numerotag} ya Existe`);
     }
 }
 
-/**sin utilizar */
-const NoexisteTag= async(numerotag)=>{
+/**
+ * 
+ * @param {String} id 
+ * consulta si existe no existe en la base de datos el tag porque si existe lo envia a eliminar ruta-compraTags.js
+ */
+const NoexisteTag= async(id)=>{
+    const numerotag= id;
     const NoexisteTag= await Compratag.findOne({numerotag});
-    
-    console.log(numerotag)
     if(!NoexisteTag){
         throw new Error(`El Tag: ${numerotag} no existe en la base de datos`);
     }
@@ -138,6 +172,16 @@ const existeRol=async(rol)=>{
     if(existeRol){
         console.log(`No se grabo el Rol porque ya existe`)
         throw new Error(`No se grabo el Rol porque ya existe`);
+    }
+
+}
+
+const NoexisteRol=async(rol)=>{
+   
+    const noExisteRol= await Rol.findOne({rol});
+    if(!noExisteRol){
+        console.log(`El rol ${rol} no existe en la base de datos`)
+        throw new Error(`El rol ${rol} no existe en la base de datos`);
     }
 
 }
@@ -170,4 +214,8 @@ module.exports={
     existeRol,
     NoexisteRolId,
     existeTagPorId,
+    NoexisteCedulaUser,
+    NoexisteCedulaCliente,
+    NoexisteRol
+    
 }

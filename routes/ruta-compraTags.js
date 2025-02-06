@@ -2,7 +2,7 @@ const {Router}= require('express');
 const {check} = require('express-validator');
 const { compraTagsGet, compraTagsPost, compraTagsPut, compraTagsDelete } = require('../controllers/compraTags');
 const { validarCampos } = require('../middlewares/validar-campos');
-const { existeTag, existeTagPorId } = require('../helpers/db-validators');
+const { existeTag, existeTagPorId, NoexisteTag } = require('../helpers/db-validators');
 
 const router = Router();
 
@@ -32,7 +32,10 @@ router.put('/:id',[
 ],compraTagsPut)
 
  
-router.delete('/:id', compraTagsDelete)
+router.delete('/:id',[
+    check('id').custom(NoexisteTag),
+    validarCampos,
+] ,compraTagsDelete)
 
 
 

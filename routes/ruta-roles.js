@@ -3,7 +3,7 @@ const {Router}= require('express');
 const {check} = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { rolesGet, rolesPost, rolesPut, rolesDelete } = require('../controllers/roles');
-const {NoexisteRolId,existeRol } = require('../helpers/db-validators');
+const {NoexisteRolId,existeRol, NoexisteRol } = require('../helpers/db-validators');
 
 const router =  Router();
 
@@ -26,7 +26,10 @@ router.put('/:id',[
 ],rolesPut)
 
  
-router.delete('/:id',  rolesDelete)
+router.delete('/:rol',[
+    check('rol').custom(NoexisteRol),
+    validarCampos,
+],rolesDelete)
 
 
 

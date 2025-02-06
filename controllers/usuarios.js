@@ -67,20 +67,19 @@ const usuariosPut = async(req=request, res= response) =>{
 
 
  const usuariosDelete = async(req=request, res=response) =>{
-   const id= req.params.id;
+   const cedula= req.params.cedula;
+      console.log(cedula)
+      const user= await Usuario.findOne({cedula});
+      console.log(user._id)
    
-   console.log(id)
-
-   //borra de la base de datos al usuario por id permanentemente
-  // const usuario= await Usuario.findByIdAndDelete(id);
-
-   const usuario= await Usuario.findByIdAndUpdate(id,{estado:false})
-
-    res.json({
-        msg: `DELETE USER ${id} DEL API USUARIOS controlador..`,
-        usuario
-     })
-  }
+      user.fechaActualizacion= fechaEcuador();
+      user.estado= false;
+      const usuario= await Usuario.findByIdAndUpdate(user._id, user);
+      
+   res.json({
+    usuario
+   })
+}
 
   module.exports={
     usuariosGet,

@@ -1,16 +1,31 @@
 const {response,request} = require('express');
 const Compratag = require('../models/compraTagsDB');
-const moment = require('moment-timezone');
+//const moment = require('moment-timezone');
 const { fechaEcuador } = require('../helpers/fechaActual');
 
 
 
-const compraTagsGet = (req=request, res=response) =>{
+
+const compraTagsGet = async(req=request, res=response) =>{
     
+   const {limit=20, desde='0'}= req.query;
+        const query= {estado:true}
+       /* const usuarios = await Usuario.find(query)
+        .skip(Number(desde))
+        .limit(Number(limit))
   
+        const total= await Usuario.countDocuments(query);
+  */
+     const [total, usuarios]= await Promise.all([
+        Compratag.countDocuments(query),
+        Compratag.find(query)
+        .skip(Number(desde))
+        .limit(Number(limit)),
+     ])
   
   res.json({
-       msg: 'GET API COMPRATAG controlador update..',
+       total,
+       usuarios
 
     })
   }
@@ -29,15 +44,13 @@ const compraTagsPost = async (req=request, res=response) =>{
 }
 
 
-  const compraTagsPut = async(req=request, res=response) =>{
+  const compraTagsPut = async (req=request, res=response) =>{
     const numerotag= req.params.id;
     console.log(numerotag)
     const {_id, ...resto }= req.body;
    
     resto.fechacreacion= fechaEcuador();
     const compratags= await Compratag.findByIdAndUpdate(numerotag, resto);
-    
-
 
     res.json({
         compratags
@@ -45,12 +58,20 @@ const compraTagsPost = async (req=request, res=response) =>{
  }
 
  
- const compraTagsDelete = (req=request, res=response) =>{
-  const id= req.params.id;
-  console.log(id)
+ const compraTagsDelete = async (req=request, res=response) =>{
+  const numerotag= req.params.id;
+  console.log(numerotag)
+  const compra= await Compratag.findOne({numerotag});
+  console.log(compra._id)
+ 
+  compra.fechacreacion= fechaEcuador();
+  compra.estado= false;
+  const compratags= await Compratag.findByIdAndUpdate(compra._id, compra);
+
+  
    res.json({
-       msg: `DELETE COMPRATAGS ${id} DEL API COMPRATAGS controlador update..`,
-       id
+   
+     compratags
     })
   }
 

@@ -9,7 +9,7 @@ const clientesGet = async(req=request, res=response) =>{
   const {limit=20, desde='0'}= req.query;
   const query= {estado:true};
 
-   const [total, clientes, ] = await Promise.all([
+   const [total, clientes ] = await Promise.all([
       Cliente.countDocuments(query),
       Cliente.find(query)
       .skip(Number(desde))
@@ -64,13 +64,19 @@ const clientePost =  async(req=request, res=response) =>{
  }
 
 
- const clienteDelete = (req=request, res=response) =>{
-   const id= req.params.id;
-   console.log(id)
-   res.json({
-       msg: `DELETE CLIENTE ${id} DEL API CLIENTES controlador update..`,
-       id
-    })
+ const clienteDelete = async(req=request, res=response) =>{
+   const cedula= req.params.cedula;
+         const client= await Cliente.findOne({cedula});
+         client.fechaActualizacion= fechaEcuador();
+         client.estado= false;
+         const cliente= await Cliente.findByIdAndUpdate(client._id, client);
+         
+      res.json({
+       cliente
+      })
+
+
+
   }
 
   module.exports = {

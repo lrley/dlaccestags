@@ -4,7 +4,7 @@ const {check} = require('express-validator');
 const { clientesGet, clientePost, clientePut, clienteDelete } = require('../controllers/clientes');
 const { validarCampos } = require('../middlewares/validar-campos');
 const Rol = require('../models/rolDB');
-const { esRolValido,existeCedulaCliente,existeCorreoCliente,existeClientePorId } = require('../helpers/db-validators');
+const { esRolValido,existeCedulaCliente,existeCorreoCliente,existeClientePorId, NoexisteCedulaCliente } = require('../helpers/db-validators');
 
 const router =  Router();
 
@@ -35,7 +35,10 @@ router.put('/:id',[
 ],clientePut)
 
  
-router.delete('/:id',  clienteDelete)
+router.delete('/:cedula',[
+    check('cedula').custom(NoexisteCedulaCliente),
+    validarCampos,
+],clienteDelete)
 
 
 

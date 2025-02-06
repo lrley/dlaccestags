@@ -3,11 +3,23 @@ const Rol = require('../models/rolDB');
 
 
 
-const rolesGet = (req=request, res=response) =>{
-    res.json({
-        msg: 'GET desde Roles',
-        
-    })
+const rolesGet = async(req=request, res=response) =>{
+    
+  
+     const {limit=20, desde='0'}= req.query;
+       const query= {estado:true}
+   
+    const [ total,roles]= await Promise.all([
+       Rol.countDocuments(query),
+       Rol.find(query)
+       .skip(Number(desde))
+       .limit(Number(limit)),
+    ])
+ 
+     res.json({
+       total,
+       roles
+     })
   }
 
   const  rolesPost= async(req = request, res = response)=>{
@@ -41,12 +53,20 @@ const rolesGet = (req=request, res=response) =>{
   }
  
  
-  const rolesDelete = (req=request, res=response) =>{
-    const id= req.params.id;
-     res.json({
-         msg: `DELETE desde Roles`,
-         id         
-      })
+  const rolesDelete = async (req=request, res=response) =>{
+    const rol= req.params.rol;
+    console.log(rol)
+
+    const roles= await Rol.findOne({rol});
+    console.log(roles._id)
+ 
+   
+    roles.estado= false;
+    const rolEliminado= await Rol.findByIdAndUpdate(roles._id, roles);
+    
+ res.json({
+  rolEliminado
+ })
    }
  
    module.exports={
