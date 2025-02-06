@@ -7,7 +7,7 @@ class Server {
 
     constructor() {
         this.app = express();
-        this.puerto = process.env.PORT;
+        this.puerto = process.env.PORT || 3000;
         this.usuariosPath = '/api/usuarios';
         this.clientesPath= '/api/clientes'
         this.compraTagPath= '/api/compratags'
