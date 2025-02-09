@@ -18,3 +18,4 @@ NOTAS
 # 11 npm install express-validator
 # 12 npm install moment
 # 13 npm install moment-timezone
+# 14 npm install jsonwebtoken

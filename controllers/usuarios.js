@@ -67,17 +67,20 @@ const usuariosPut = async(req=request, res= response) =>{
 
 
  const usuariosDelete = async(req=request, res=response) =>{
-   const cedula= req.params.cedula;
-      console.log(cedula)
-      const user= await Usuario.findOne({cedula});
-      console.log(user._id)
+      const cedula= req.params.cedula;
+      
    
+
+      const user= await Usuario.findOne({cedula});
       user.fechaActualizacion= fechaEcuador();
       user.estado= false;
       const usuario= await Usuario.findByIdAndUpdate(user._id, user);
+      const usuarioAutenticado= req.usuario;
+      console.log(usuarioAutenticado)
       
    res.json({
-    usuario
+    usuario ,
+    usuarioAutenticado  
    })
 }
 

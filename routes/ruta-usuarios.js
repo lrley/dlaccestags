@@ -3,8 +3,17 @@ const {Router}= require('express');
 const {check} = require('express-validator');
 const { usuariosGet, usuariosPost, usuariosPut, usuariosDelete } = require('../controllers/usuarios');
 
-const { validarCampos } = require('../middlewares/validar-campos');
-const { esRolValido,existeCedulaUser,existeEmailUser, existeUsuarioPorId, NoexisteCedulaUser } = require('../helpers/db-validators');
+/*const { validarCampos } = require('../middlewares/validar-campos');
+const { validarJWT } = require('../middlewares/validar-jwt');
+const { esAdminRole, tieneRol } = require('../middlewares/validar-roles');*/
+const {
+    validarCampos,
+    validarJWT,
+    esAdminRole,
+    tieneRol
+} = require('../middlewares');
+
+const { esRolValido,existeCedulaUser,existeEmailUser, existeUsuarioPorId, NoexisteCedulaUser, usuarioEliminado } = require('../helpers/db-validators');
 
 const router =  Router();
 
@@ -19,9 +28,10 @@ router.post('/',[
     check('correo').custom(existeEmailUser),
     check('cedula').custom(existeCedulaUser),
     check('rol').custom(esRolValido),
+   
     validarCampos,
 
-] , usuariosPost)
+] , usuariosPost);
 
 
 router.put('/:id',[
@@ -35,7 +45,11 @@ validarCampos,
 
  
 router.delete('/:cedula',[
-   check('cedula').custom(NoexisteCedulaUser),
+    validarJWT,
+   // esAdminRole,
+    tieneRol('ADMIN_ROL','USER_ROL'),
+    check('cedula').custom(usuarioEliminado),
+    check('cedula').custom(NoexisteCedulaUser),
     validarCampos,
 ] , usuariosDelete)
 

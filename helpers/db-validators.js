@@ -30,6 +30,16 @@ const esRolValido = async(rol='')=>{
        }
  }
  
+ const usuarioEliminado= async(cedula='')=>{
+    
+    const usuarioEliminadoDB = await Usuario.findOne({cedula})
+      if(!usuarioEliminadoDB.estado){
+         console.log(`El usuario ${usuarioEliminadoDB.nombre} con cedula:  ${cedula} ya esta Eliminado de la base de datos`);
+         throw new Error(`El usuario ${usuarioEliminadoDB.nombre} con cedula:  ${cedula} ya esta Eliminado de la base de datos`);
+        
+      }
+}
+
 /**
  * 
  * @param {String} cedula 
@@ -56,6 +66,16 @@ const existeEmailUser= async(correo='')=>{
     if(existeEmail){
        console.log(`No se grabo la informacion el correo ${correo} ya esta registrado`)
        throw new Error(`El correo ${correo} ya esta registrado en la Base de datos de usuarios`);
+    }
+
+}
+
+const NoexisteEmailUser= async(correo='')=>{
+   
+    const existeEmail= await Usuario.findOne({correo});
+    if(!existeEmail){
+       console.log(`No existe el correo ${correo} en la base de datos`)
+       throw new Error(`No existe el correo ${correo} en la base de datos`);
     }
 
 }
@@ -216,6 +236,8 @@ module.exports={
     existeTagPorId,
     NoexisteCedulaUser,
     NoexisteCedulaCliente,
-    NoexisteRol
+    NoexisteRol,
+    NoexisteEmailUser,
+    usuarioEliminado
     
 }

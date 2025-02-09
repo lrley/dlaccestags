@@ -6,9 +6,12 @@ class Server {
     
 
     constructor() {
+        
         this.app = express();
         this.puerto = process.env.PORT || 3000;
+
         this.usuariosPath = '/api/usuarios';
+        this.authPath='/api/auth'
         this.clientesPath= '/api/clientes'
         this.compraTagPath= '/api/compratags'
         this.rolesPath='/api/roles'
@@ -35,7 +38,6 @@ class Server {
         //CORS
         this.app.use(cors());
 
-
         //Lectoura y parseo del body
         this.app.use(express.json());
 
@@ -47,6 +49,7 @@ class Server {
 
     routes(){
 
+        this.app.use(this.authPath, require('../routes/ruta-auth'));
         this.app.use(this.usuariosPath, require('../routes/ruta-usuarios'));
         this.app.use(this.clientesPath, require('../routes/ruta-clientes'));
         this.app.use(this.compraTagPath, require('../routes/ruta-compraTags'));
